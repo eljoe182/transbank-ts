@@ -17,9 +17,12 @@
   },
   "scripts": {
     "dev": "nodemon",
-    "start": "node dist/index.js",
-    "eslint": "eslint \"./**/*.ts\" --quiet",
-    "build": "tsc -p tsconfig.json"
+    "clean": "rm -r dist; exit 0",
+    "start": "node -r tsconfig-paths/register -r ts-node/register ./dist/src/index.js",
+    "build": "npm run build:clean && npm run build:tsc",
+    "build:clean": "rm -r dist; exit 0",
+    "build:tsc": "tsc -p tsconfig.json",
+    "eslint": "eslint \"./**/*.ts\" --quiet"
   },
   "repository": {
     "type": "git",
@@ -42,6 +45,7 @@
     "glob": "^8.0.3",
     "node-dependency-injection": "3.0.3",
     "transbank-sdk": "^4.0.0",
+    "ts-node": "^10.9.1",
     "tsconfig-paths": "4.1.1",
     "winston": "^3.8.2"
   },
