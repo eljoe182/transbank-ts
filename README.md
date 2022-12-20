@@ -1,1 +1,1 @@
-# ts-template
+# Transbank TypeScript

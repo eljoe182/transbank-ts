@@ -9,5 +9,6 @@ try {
 }
 
 process.on('uncaughtException', (_err) => {
+  console.log(_err);
   process.exit(1);
 });

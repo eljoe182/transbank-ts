@@ -1,5 +1,7 @@
 import express from 'express';
 import helmet from 'helmet';
+import cors from 'cors';
+import bodyParser from 'body-parser';
 import { ErrorHandler } from './errorHandler';
 import ILogger from '@shared/domain/ILogger';
 import container from '@app/dependencyInjection/shared';
@@ -15,14 +17,15 @@ export class Server {
     this.logger = container.get('Logger');
     const router = express.Router();
     this.port = port;
+    this.app.use(cors({ origin: true }));
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(bodyParser.json());
     this.app.use(helmet.xssFilter());
     this.app.use(helmet.noSniff());
     this.app.use(helmet.hidePoweredBy());
-    this.app.use(express.json());
-    this.app.use(express.urlencoded({ extended: true }));
+    registerRoutes(router);
     this.app.use(router, ErrorHandler);
     this.app.use(router, RoutesErrorHandler);
-    registerRoutes(router);
   }
 
   start = async (): Promise<void> => {
