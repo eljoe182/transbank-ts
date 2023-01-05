@@ -1,9 +1,9 @@
 import config from '@app/config';
 import { WebpayPlus } from 'transbank-sdk';
+import { IBaseUseCase } from '@shared/domain/interface/IBaseUseCase';
 import { WebPayPlusViewData } from '../domain/contracts/WebPayPlusViewData.contract';
-import { ICreateUseCase } from '../domain/interface/ICreateUseCase';
 
-export default class CreateUseCase implements ICreateUseCase {
+export default class CreateWebpayUseCase implements IBaseUseCase {
   async execute(viewData: WebPayPlusViewData): Promise<unknown> {
     const { buyOrder, sessionId, amount } = viewData;
 
@@ -20,6 +20,7 @@ export default class CreateUseCase implements ICreateUseCase {
       .catch((error) => {
         throw new Error(error);
       });
-    return createResponse;
+    const { url, token } = createResponse;
+    return `${url}?token_ws=${token}`;
   }
 }
